@@ -1,6 +1,8 @@
 package main
 
 import (
+	"go-test-git/repository"
+	"go-test-git/services"
 	"log"
 	"runtime"
 	"strings"
@@ -21,10 +23,13 @@ func main() {
 	var (
 		mysql = newMysqlConn()
 		e     = echo.New()
+		handler = newHandler(mysql)
 	)
 	defer mysql.Close()
+	mysql.AutoMigrate(services.Test{})
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.GET("/getAllTest", handler.GetAllHandler)
 
 	e.Logger.Fatal(e.Start(":" + viper.GetString("app.port")))
 }
@@ -66,4 +71,13 @@ func newMysqlConn() *gorm.DB {
 	conn.LogMode(viper.GetBool("mysql.debug"))
 
 	return conn
+}
+
+func newHandler(db *gorm.DB) *services.Handler {
+	handler := services.NerHandler(
+		services.NewService(
+			repository.New(db),
+		),
+	)
+	return handler
 }
