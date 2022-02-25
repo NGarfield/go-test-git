@@ -1,6 +1,8 @@
 package main
 
 import (
+	"go-test-git/repository"
+	"go-test-git/services"
 	"log"
 	"runtime"
 	"strings"
@@ -23,8 +25,11 @@ func main() {
 		e     = echo.New()
 	)
 	defer mysql.Close()
+	mysql.AutoMigrate(services.Test{})
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	handler := services.NewHandler(services.NewService(repository.NewRepository(mysql)))
+	e.POST("/test", handler.InsertTestDataHandler)
 
 	e.Logger.Fatal(e.Start(":" + viper.GetString("app.port")))
 }
