@@ -1,0 +1,25 @@
+app:
+  port: "1323"
+log:
+  env: "dev"
+  level: "debug"
+  reportcaller: true
+  pub:
+    topic: "telemetry"
+mysql:
+  username: "root"
+  password: "1234"
+  database:
+    test: "tn_merchant"
+  host: "localhost"
+  port: "3306"
+  datasource: "PROTOCOL=TCPIP;"
+  maxidle: 50
+  maxopen: 50
+  maxlifetime: 30m
+  timeout: 5s
+  readtimeout: 5s
+  writetimecout: 5s
+  parsetime: true
+  debug: true
+  migrate: false
