@@ -10,7 +10,7 @@ mysql:
   username: "root"
   password: "1234"
   database:
-    test: "tn_merchant"
+    test: "test"
   host: "localhost"
   port: "3306"
   datasource: "PROTOCOL=TCPIP;"
