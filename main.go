@@ -21,15 +21,17 @@ func init() {
 }
 func main() {
 	var (
-		mysql = newMysqlConn()
-		e     = echo.New()
+		mysql   = newMysqlConn()
+		e       = echo.New()
 		handler = newHandler(mysql)
 	)
 	defer mysql.Close()
 	mysql.AutoMigrate(services.Test{})
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
 	e.GET("/getAllTest", handler.GetAllHandler)
+	e.POST("/test", handler.InsertTestDataHandler)
 
 	e.Logger.Fatal(e.Start(":" + viper.GetString("app.port")))
 }
