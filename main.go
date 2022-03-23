@@ -36,6 +36,7 @@ func main() {
 	e.Logger.Fatal(e.Start(":" + viper.GetString("app.port")))
 }
 
+
 func initviper() {
 	viper.AddConfigPath("configs")
 	viper.SetConfigName("config")
